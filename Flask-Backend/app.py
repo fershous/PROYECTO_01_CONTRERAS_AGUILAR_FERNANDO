@@ -28,6 +28,40 @@ for product in products:
     }
     productDictionary.append(newProduct)
 
+"Monthly sales"
+monthly_average = 0
+months =  [1,"Jan", 0, 0], [2,"Feb", 0, 0], [3,"Mar", 0, 0],[4,"Apr", 0, 0], [5,"May", 0, 0], [6,"Jun", 0, 0], [7,"Jul", 0, 0], [8,"Aug", 0, 0],[9,"Sep", 0, 0], [10,"Oct", 0, 0], [11,"Nov", 0, 0], [12,"Dec", 0, 0],
+
+"Product´s sales"
+for sale in sales:
+    productDictionary[sale[1]]["pieces_sold"] += 1 #Sum 1 to the product´s sales
+    productDictionary[sale[1]]["total_sold"]  += productDictionary[sale[1]]["price"] #Sum the product´s price when a piece is sold
+    
+    "Get monthly sales"
+    month = sale[3].split('/')[1] #Split the date string and extract the month
+    months[int(month) - 1][2] += productDictionary[sale[1]]["price"] #Get the sale and add it in it´s month(-1)
+    months[int(month) - 1][3] += 1 #Get the sale and add it in it´s month(-1)
+
+    "Customer´s reviews"
+    productDictionary[sale[1]]["reviews"].append(sale[2]) #Array of customer´s reviews
+    sale += [0]
+    sale[5] = productDictionary[sale[1]]["name"] #Name of the product
+
+"Yearly sales"
+total_annual = 0
+top_products = [] * len(productDictionary)
+
+for i in range(1, len(productDictionary)):
+    total_annual += productDictionary[i]["total_sold"]
+
+    "Review average"
+    if ((len(productDictionary[i]["reviews"]) - 1) > 0): #Avoid dividing by zero
+        productDictionary[i]["score"] = sum(productDictionary[i]["reviews"]) / (len(productDictionary[i]["reviews"]) - 1)
+    
+    "Searches"
+    productDictionary[searches[i-1][1]]["searches"] += 1
+
+
 salesDictionary = []
 for sale in sales:
     newSale = {
@@ -36,51 +70,17 @@ for sale in sales:
         "score"     : sale[2],
         "date"      : sale[3],
         "refund"    : sale[4],
-        "name"      : productDictionary[sale[1]]["name"]
+        "name"      : productDictionary[sale[1]]["name"],
+        "searches"  : productDictionary[sale[1]]["searches"]
     }
     salesDictionary.append(newSale)
 
-"Product´s sales"
-for sale in sales:
-    productDictionary[sale[1]]["pieces_sold"] += 1 #Sum 1 to the product´s sales
-    productDictionary[sale[1]]["total_sold"]  += productDictionary[sale[1]]["price"] #Sum the product´s price when a piece is sold
-
-"Yearly sales"
-total_annual = 0
-for i in range(1, len(productDictionary)):
-    total_annual += productDictionary[i]["total_sold"]
-
-"Monthly sales"
-monthly_average = 0
-months =  [1,"Jan", 0, 0], [2,"Feb", 0, 0], [3,"Mar", 0, 0],[4,"Apr", 0, 0], [5,"May", 0, 0], [6,"Jun", 0, 0], [7,"Jul", 0, 0], [8,"Aug", 0, 0],[9,"Sep", 0, 0], [10,"Oct", 0, 0], [11,"Nov", 0, 0], [12,"Dec", 0, 0],
-
-for sale in sales:
-    month = sale[3].split('/')[1] #Split the date string and extract the month
-    months[int(month) - 1][2] += productDictionary[sale[1]]["price"] #Get the sale and add it in it´s month(-1)
-    months[int(month) - 1][3] += 1 #Get the sale and add it in it´s month(-1)
-
 "Average pieces sold"
-pieces_sold = len(sales)
-average_sold = pieces_sold / 12
+pieces_sold = len(sales) #total sales
+average_sold = pieces_sold / 12 #Sales average per month
     
 "Monthly average"
 monthly_average = total_annual/12
-
-"Customer´s reviews"
-for sale in sales:
-    productDictionary[sale[1]]["reviews"].append(sale[2]) #Array of customer´s reviews
-    sale += [0]
-    sale[5] = productDictionary[sale[1]]["name"]
-
-"Review average"
-for i in range(1, len(productDictionary)):
-    if ((len(productDictionary[i]["reviews"]) - 1) > 0): #Avoid dividing by zero
-        productDictionary[i]["score"] = sum(productDictionary[i]["reviews"]) / (len(productDictionary[i]["reviews"]) - 1)
-
-"Searches"
-top_products = [] * len(productDictionary)
-for i in range(1, len(productDictionary)):
-    productDictionary[searches[i-1][1]]["searches"] += 1
 
 "Top 5 Selling months"
 top_selling = []
@@ -97,7 +97,7 @@ for i in range(5, 12):
 "Top Selling products"
 sorted_products = []
 sorted_products = productDictionary[1:len(productDictionary)]
-sorted_products = sorted(sorted_products, key = lambda k: k['pieces_sold'], reverse=True)
+sorted_products = sorted(sorted_products, key = lambda k: k['pieces_sold'], reverse=True) #Sort products by pieces sold descending
 top_products = sorted_products[0:51]
 worst_products = sorted_products[51:len(productDictionary)]
 
@@ -106,15 +106,16 @@ categories = []
 for product in sorted_products:
     pieces = product["pieces_sold"]
     for i in range(0, pieces):
-        categories.append(product["category"])
-categories_count = {i: categories.count(i) for i in categories}
+        categories.append(product["category"]) # Get an array of the categories and it´s ocurrencies for counting
+categories_count = {i: categories.count(i) for i in categories} # Get an array of each category ocurrencies
 
-
+"Top and worst products by review"
 sorted_reviews = productDictionary[1:len(productDictionary)]
 sorted_reviews = sorted(sorted_reviews, key = lambda k: k['score'], reverse=True)
 top_reviews = sorted_reviews[0:50]
 worst_reviews = sorted_reviews[51: len(productDictionary)]
 
+"Best and least sellers"
 most_popular = sorted_reviews[0]
 less_popular = sorted_reviews[len(sorted_reviews) - 1]
 sort = sorted(sorted_reviews, key = lambda k: k['pieces_sold'], reverse=True)
