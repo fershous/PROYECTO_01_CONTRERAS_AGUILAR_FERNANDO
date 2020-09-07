@@ -16,9 +16,9 @@ Esto levantará un servidor en el localhost:5000. Así, la aplicación podrá fu
 Necesitarás: 
 1. Node.js: https://nodejs.org/es/
 2. Angular CLI: ejecutando el comando 'npm install -g @angular/cli' https://cli.angular.io/
-3. Una vez hecho esto, instala las dependencias Node en el proyecto. Abre la carpeta "Angular FrontEnd" en una ventan de comando y ejecuta 'npm install'
+3. Una vez hecho esto, instala las dependencias Node en el proyecto. Abre la carpeta "Angular FrontEnd" en una ventan de comando y ejecuta 'npm install'.
 Esto instalará las dependecias Node en la aplicación.
-Una vez hecho esto, deberás instalar las dependencias de Angular Material. En el directorio del FrontEnd: 'ng add @angular/material' https://material.angular.io/
+4. Una vez hecho esto, deberás instalar las dependencias de Angular Material. En el directorio del FrontEnd: 'ng add @angular/material' https://material.angular.io/<br>
 Ahora podrás ejecutar la aplicación con el comando: 'ng serve -o' (-o abre la aplicación inmediatamente en el navegador).
 
 # No olvides tener ejectuando el servidor backend.
