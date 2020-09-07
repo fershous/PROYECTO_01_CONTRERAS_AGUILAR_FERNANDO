@@ -1,0 +1,148 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div *ngFor="let item of summary" class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+             <mat-card>
+               <mat-card-header style="margin-left: 0;">
+                  <mat-card-subtitle class="text-uppercase"> {{ item.name }} </mat-card-subtitle>
+                  <mat-card-title *ngIf="item.id % 2 === 0"> {{ item.data | currency }} </mat-card-title>
+                  <mat-card-title *ngIf="item.id % 2 != 0"> {{ item.data | number }} </mat-card-title>
+                  <div class="col-auto" style="margin-left: auto;">
+                    <div class="icon icon-shape text-white rounded-circle shadow" [class]="item.color">
+                      <i [class]="item.icon"></i>
+                    </div>
+                  </div>
+                </mat-card-header>
+                <mat-card-content>
+                  <span class="text-success mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                  <span class="text-nowrap">Since last week</span>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-8 mb-5 mb-xl-0">
+      <div class="card bg-gradient-default shadow">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-light ls-1 mb-1">Overview</h6>
+              <h2 class="text-white mb-0">Sales value</h2>
+            </div>
+            <div class="col">
+              <ul class="nav nav-pills justify-content-end">
+                <li class="nav-item" data-toggle="chart" data-target="#chart-sales"  (click)="data=datasets[1];updateOptions()">
+                  <a href="javascript:void(0)" class="nav-link py-2 px-3" [ngClass]="{'active':clicked1===true}" data-toggle="tab" (click)="clicked=false;clicked1=true">
+                    <span class="d-none d-md-block">See more</span>
+                    <span class="d-md-none">W</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart">
+            <!-- Chart wrapper -->
+            <canvas id="chart-sales" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
+              <h2 class="mb-0">Top Selling</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Chart -->
+          <div class="chart">
+            <canvas id="chart-orders" class="chart-canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-xl-8 mb-5 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Best Products</h3>
+            </div>
+            <div class="col text-right">
+              <a href="#!" class="btn btn-sm btn-primary">See all</a>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive pane">
+          <!-- Projects table -->
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th *ngFor="let column of displayedColumns" scope="col"> {{ column }} </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of ELEMENT_DATA">
+                <th scope="row"> {{ product.id }} </th>
+                <td> {{ product.name | slice:0:40 }}... </td>
+                <td> {{ product.category | titlecase }} </td>
+                <td> {{ product.pieces_sold }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Stock</h3>
+            </div>
+            <div class="col text-right">
+              <a href="#!" class="btn btn-sm btn-primary">See all</a>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <!-- Projects table -->
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Stock</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of list">
+                <th scope="row"> {{ product.id }} </th>
+                <td> {{ product.name | slice:0:30 }}... </td>
+                <td *ngIf="product.stock < 20" class="text-danger"> {{ product.stock }} </td>
+                <td *ngIf="product.stock >= 20" class="text-primary"> {{ product.stock }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
